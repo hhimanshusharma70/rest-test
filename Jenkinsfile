@@ -9,10 +9,25 @@ pipeline {
         }
         stage("Deploy") {
             steps {
-                sh "whoami"
                 sh "sudo rm -rf /home/ubuntu/react-main/" 
                 sh "sudo cp -r ${WORKSPACE}/build/ /home/ubuntu/react-main/"
             }
+        }
+		
+		stage("Upload to S3") {
+            dir('/home/ubuntu/react-main/'){
+
+            pwd(); //Log current directory
+
+            withAWS(region:'ap-south-1',credentials:'aws-himanshu') {
+
+                 def identity=awsIdentity();//Log AWS credentials
+
+                // Upload files from working directory 'dist' in your project workspace
+                s3Upload(bucket:"test-26-01", workingDir:'/home/ubuntu/react-main/', includePathPattern:'**/*');
+            }
+
+			};
         }
     }
 }
