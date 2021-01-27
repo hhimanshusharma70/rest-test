@@ -16,6 +16,7 @@ RUN npm run build
 
 FROM nginx:alpine
 WORKDIR /usr/share/nginx/html
+
 # Remove default nginx static assets
 RUN rm -rf ./*
 COPY --from=build-step  /app/build  /usr/share/nginx/html
