@@ -17,7 +17,6 @@ RUN npm run build
 
 
 
-
 # Stage 2
 
 FROM nginx:alpine
