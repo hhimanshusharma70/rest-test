@@ -9,7 +9,8 @@ RUN npm install && npm build
 
 FROM nginx:1.17.1-alpine
 # Set working directory to nginx asset directory
-WORKDIR F:/React/restfiles
+#WORKDIR F:/React/restfiles
+WORKDIR /home/ubuntu/rest-files
 # Remove default nginx static assets
 RUN rm -rf ./*
 # Copy static assets from builder stage
