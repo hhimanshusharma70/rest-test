@@ -1,25 +1,15 @@
 pipeline {
      agent any
      stages {
-        stage("Build") {
+        stage("Build Docker") {
             steps {
-                sh "npm install"
-                sh "npm run build"
+               sh 'docker build -t rest-test:${BUILD_NUMBER} .'
             }
         }
         stage("Deploy") {
             steps {
-                sh "sudo rm -rf /home/ubuntu/react-main/" 
-                sh "sudo cp -r ${WORKSPACE}/build/ /home/ubuntu/react-main/"
+               sh 'docker run -d -it  -p 7000:80/tcp --name rest-test:${BUILD_NUMBER} rest-test:${BUILD_NUMBER}'
             }
         }
-		
-		stage("Upload to S3") {
-			steps {
-					withAWS(region:'ap-south-1',credentials:'aws-himanshu') {
-						s3Upload(bucket:"test-26-01", workingDir:'/home/ubuntu/react-main/',path:'rest-test/main/'+${BUILD_NUMBER}, includePathPattern:'**/*')
-					}
-			}
-         }
 	}
 }
