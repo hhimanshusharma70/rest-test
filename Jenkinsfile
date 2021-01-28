@@ -3,10 +3,11 @@ pipeline {
      stages {
         stage("Build Docker") {
             steps {
-             def customImage = docker.build("test:${env.BUILD_ID}")
-             docker.image("test:${env.BUILD_ID}").withRun('-p 7000:80') {
-            /* do things */
-               }
+             script { 
+
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+
+                }
             }
         }
         stage("Deploy") { 
