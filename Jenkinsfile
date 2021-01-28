@@ -3,7 +3,14 @@ pipeline {
      stages {
         stage("Clean Up") {
             steps {
-               sh 'docker container stop $(docker ps -aq --filter "name=rest-test*")'
+
+              script {
+                    if (sh  'docker ps -aq --filter "name=rest-test*")') {
+                      sh 'docker container stop $(docker ps -aq --filter "name=rest-test*")'
+                    } else {
+                        echo 'No Build with name rest-test'
+                    }
+                }
 
                sh 'docker container rm $(docker ps -aq --filter "name=rest-test*")'
 
