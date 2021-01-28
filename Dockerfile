@@ -4,11 +4,19 @@
 FROM node:10-alpine as build-step
 RUN mkdir /app
 WORKDIR /app
-COPY package.json /app
-RUN npm config set registry http://registry.npmjs.org/
+#COPY package.json /app
+#RUN npm config set registry http://registry.npmjs.org/
 #RUN npm cache clean
-RUN npm install --verbose
-COPY . /app
+#RUN npm install --verbose
+#COPY . /app
+
+
+WORKDIR /tmp
+ADD package.json /tmp/
+RUN npm config set registry https://registry.npmjs.org/
+RUN npm install
+RUN cp -a /tmp/node_modules /app/
+
 RUN npm run build
 
 #################################################
