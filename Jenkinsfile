@@ -5,7 +5,8 @@ pipeline {
             steps {
 
               script {
-                    if ('$(docker ps -aq --filter "name=rest-test*")') {
+                    result=docker ps -aq --filter "name=rest-test*";
+                    if (result != '') {
                       sh 'docker container stop $(docker ps -aq --filter "name=rest-test*")'
                     } else {
                         echo 'No Build with name rest-test'
