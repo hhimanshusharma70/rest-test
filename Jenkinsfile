@@ -4,18 +4,7 @@ pipeline {
         stage("Clean Up") {
             steps {
 
-              script {
-                    def result=docker ps -aq --filter "name=rest-test*";
-                    if (result != '') {
-                      sh 'docker container stop $(docker ps -aq --filter "name=rest-test*")'
-                    } else {
-                        echo 'No Build with name rest-test'
-                    }
-                }
-
-               sh 'docker container rm $(docker ps -aq --filter "name=rest-test*")'
-
-               sh 'docker image prune -a --force --filter "until=5h"'
+                    sh "/home/ubuntu/script/cleanup.sh"
             }
         }
         stage("Build Docker") {
