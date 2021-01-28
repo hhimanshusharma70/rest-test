@@ -14,7 +14,7 @@ WORKDIR /app
 WORKDIR /tmp
 ADD package.json /tmp/
 RUN npm config set registry https://registry.npmjs.org/
-RUN npm install
+RUN npm install --no-optional && npm cache clean --force
 RUN cp -a /tmp/node_modules /app/
 
 RUN npm run build
