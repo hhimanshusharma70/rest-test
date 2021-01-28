@@ -1,15 +1,15 @@
 pipeline {
-     agent { dockerfile true }
+     agent any
      stages {
         stage("Build Docker") {
             steps {
-             script { 
-
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
-
-                }
+               sh 'docker build -t rest-test .'
             }
         }
-        
+        stage("Deploy") { 
+            steps {
+               sh 'docker run -d -it  -p 7000:80/tcp --name rest-test rest-test'
+            }
+        }
 	}
 }
