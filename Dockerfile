@@ -19,13 +19,13 @@ ENV PATH /opt/node_app/node_modules/.bin:$PATH
 HEALTHCHECK --interval=30s CMD node healthcheck.js
 
 # copy in our source code last, as it changes the most
-RUN  chown  /opt/node_app/app/
+RUN  chown -R /opt/node_app/app/
 WORKDIR /opt/node_app/app
 COPY . .
 
 RUN npm run build
 
-RUN  chown  /opt/node_app/app/build/
+RUN  chown -R  /opt/node_app/app/build/
 
 #################################################
 
