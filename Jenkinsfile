@@ -5,7 +5,7 @@ pipeline {
             steps {
 
               script {
-                    result=docker ps -aq --filter "name=rest-test*";
+                    def result=docker ps -aq --filter "name=rest-test*";
                     if (result != '') {
                       sh 'docker container stop $(docker ps -aq --filter "name=rest-test*")'
                     } else {
