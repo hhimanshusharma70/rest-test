@@ -4,7 +4,9 @@ pipeline {
         stage("Clean Up") {
             steps {
 
-                    sh "/home/ubuntu/script/cleanup.sh"
+                   //sh "/home/ubuntu/script/cleanup.sh"
+                  sh 'docker rm -f rest-test'
+                  sh 'docker image prune -a --force --filter "until=5h"'
             }
         }
         stage("Build Docker") {
