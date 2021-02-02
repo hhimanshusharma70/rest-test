@@ -12,7 +12,8 @@ function App() {
   });
 
   useEffect(() => {
-    setAppState({ loading: true });
+    setAppState({ loading: true }); 
+    /** */
     const apiUrl = `http://localhost:7001/api/v1/test/list`;
     axios.get(apiUrl).then((repos) => {
       const allRepos = repos.data;
@@ -29,11 +30,11 @@ function App() {
       </div>
       <footer>
         <div className='footer'>
-          Built{' '}
+          Tests{' '}
           <span role='img' aria-label='love'>
             💚
           </span>{' '}
-          with by Shedrack Akintayo
+          with by Test
         </div>
       </footer>
     </div>
