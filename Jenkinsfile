@@ -36,13 +36,12 @@ pipeline {
         
         stage('Deploying to EC2') {
             steps {
-                sshagent(credentials: ['ems']){
-                    echo "Starting to deploy docker image.." 
-                    
-                    sh 'ssh -t -t ubuntu@ec2-13-232-192-86.ap-south-1.compute.amazonaws.com -o StrictHostKeyChecking=no " 
+              sshagent(credentials: ['ems']){
+            	 echo "Starting to deploy docker image.." 
+                sh 'ssh -t -t ubuntu@ec2-13-232-192-86.ap-south-1.compute.amazonaws.com -o StrictHostKeyChecking=no " 
 docker pull $registry:$BUILD_NUMBER && docker ps -q --filter  ancestor=$registry | xargs -r docker stop"'
 
-sh 'ssh -t -t ubuntu@ec2-13-232-192-86.ap-south-1.compute.amazonaws.com -o StrictHostKeyChecking=no "docker run -d -p 7000:8080 
+		sh 'ssh -t -t ubuntu@ec2-13-232-192-86.ap-south-1.compute.amazonaws.com -o StrictHostKeyChecking=no "docker run -d -p 7000:8080 
 $registry:$BUILD_NUMBER"'
                 }
             }
