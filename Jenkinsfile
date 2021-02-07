@@ -35,9 +35,10 @@ pipeline {
         } 
         
         stage('Deploying to EC2') {
-            steps {
+            steps {
                 sshagent(credentials: ['ems']){
                     echo "Starting to deploy docker image.." 
+                    
                     sh 'ssh -t -t ubuntu@ec2-13-232-192-86.ap-south-1.compute.amazonaws.com -o StrictHostKeyChecking=no " 
 docker pull $registry:$BUILD_NUMBER && docker ps -q --filter  ancestor=$registry | xargs -r docker stop"'
 
