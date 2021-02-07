@@ -1,23 +1,40 @@
-pipeline {
-     agent any
-     stages {
-        stage("Clean Up") {
-            steps {
+pipeline { 
 
-                   //sh "/home/ubuntu/script/cleanup.sh"
-                  sh 'docker rm -f rest-test'
-                  sh 'docker image prune -a --force --filter "until=5h"'
-            }
+    environment { 
+        registry = "himanshu1170/node_demo" 
+        registryCredential = 'himanshu1170' 
+        dockerImage = '' 
+    }
+    agent any 
+    stages { 
+           stage('Building our image') { 
+
+            steps { 
+                script { 
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+
+                }
+            } 
+
         }
-        stage("Build Docker") {
-            steps {
-               sh 'docker build -t rest-test .' 
+        stage('Deploy our image') { 
+            steps { 
+                script { 
+                   docker.withRegistry( '', registryCredential ) { 
+                        dockerImage.push() 
+                    }
+                } 
+
             }
-        }
-        stage("Deploy") { 
-            steps {
-               sh 'docker run -d -it  -p 7000:80/tcp --name rest-test rest-test'
+        } 
+
+        stage('Cleaning up') { 
+            steps { 
+                sh "docker rmi $registry:$BUILD_NUMBER" 
             }
-        }
-	}
+        } 
+    }
+
 }
+
+
