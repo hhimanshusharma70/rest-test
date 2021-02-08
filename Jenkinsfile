@@ -4,7 +4,8 @@ pipeline {
         registry = "himanshu1170/node_demo" 
         registryCredential = 'docker_hub_id' 
         dockerImage = '' 
-        fileName=":$BUILD_NUMBER" +"-${currentBuild.startTimeInMillis}"
+        //fileName=":$BUILD_NUMBER" +"-${currentBuild.startTimeInMillis}"
+        fileName=":$BUILD_NUMBER" +"-${new Date().format("ddMMyy.HHmm", TimeZone.getTimeZone('UTC'))}"
         latestDockerTag="himanshu1170_node_demo-latest" 
     }
     agent any 
