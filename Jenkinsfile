@@ -5,6 +5,7 @@ pipeline {
         registryCredential = 'docker_hub_id' 
         dockerImage = '' 
         fileName=":$BUILD_NUMBER" +"-${currentBuild.startTimeInMillis}"
+        latestDockerTag="himanshu1170/node_demo-latest" 
     }
     agent any 
     stages { 
@@ -45,8 +46,8 @@ pipeline {
                 sh 'ssh -t -t ubuntu@ec2-13-232-192-86.ap-south-1.compute.amazonaws.com -o StrictHostKeyChecking=no " docker ps -q --filter  ancestor=$registry | xargs -r docker stop "'
                 //sh 'ssh -t -t ubuntu@ec2-13-232-192-86.ap-south-1.compute.amazonaws.com -o StrictHostKeyChecking=no " docker stop $registry:latest"'
                 //sh 'ssh -t -t ubuntu@ec2-13-232-192-86.ap-south-1.compute.amazonaws.com -o StrictHostKeyChecking=no " docker rm $registry:latest"'
-                sh 'ssh -t -t ubuntu@ec2-13-232-192-86.ap-south-1.compute.amazonaws.com -o StrictHostKeyChecking=no " docker rm -f $registry_latest"'
-                sh 'ssh -t -t ubuntu@ec2-13-232-192-86.ap-south-1.compute.amazonaws.com -o StrictHostKeyChecking=no "docker run -d -p 7000:80 --name=$registry_latest  $registry:latest" '
+                sh 'ssh -t -t ubuntu@ec2-13-232-192-86.ap-south-1.compute.amazonaws.com -o StrictHostKeyChecking=no " docker rm -f $latestDockerTag"'
+                sh 'ssh -t -t ubuntu@ec2-13-232-192-86.ap-south-1.compute.amazonaws.com -o StrictHostKeyChecking=no "docker run -d -p 7000:80 --name=$latestDockerTag  $registry:latest" '
                 }
              }
          }
