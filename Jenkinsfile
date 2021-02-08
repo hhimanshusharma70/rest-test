@@ -5,7 +5,7 @@ pipeline {
         registryCredential = 'docker_hub_id' 
         dockerImage = '' 
         fileName=":$BUILD_NUMBER" +"-${currentBuild.startTimeInMillis}"
-        latestDockerTag="himanshu1170/node_demo-latest" 
+        latestDockerTag="himanshu1170_node_demo-latest" 
     }
     agent any 
     stages { 
