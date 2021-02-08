@@ -4,6 +4,7 @@ pipeline {
         registry = "himanshu1170/node_demo" 
         registryCredential = 'docker_hub_id' 
         dockerImage = '' 
+        fileName=":$BUILD_NUMBER" +"-${currentBuild.startTimeInMillis}"
     }
     agent any 
     stages { 
@@ -12,7 +13,7 @@ pipeline {
             steps { 
                 script { 
                     sh " echo $USER"
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER" +"-${currentBuild.startTimeInMillis}"
+                    dockerImage = docker.build registry + fileName
 
                 }
             } 
@@ -32,7 +33,7 @@ pipeline {
 
         stage('Cleaning up') { 
             steps { 
-                sh "docker rmi $registry:$BUILD_NUMBER" 
+                sh "docker rmi $registry"+fileName 
             }
         } 
         
